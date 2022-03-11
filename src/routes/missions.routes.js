@@ -5,18 +5,19 @@ import { generateId } from '../utils/utils.js';
 const router = Router();
 
 router.get("/", (req, res) => {
-  const missions = data.missions.map((mission) => {
-    const missionObjectives = data.missionObjectives.filter((missionObjective) => missionObjective.mission === mission.id);
-    return { ...mission, missionObjectives };
-  });
+  const missions = data.missions.filter((mission) => mission.active)
+    .map((mission) => {
+      const missionObjectives = data.missionObjectives.filter((missionObjective) => missionObjective.mission === mission.id && missionObjective.active);
+      return { ...mission, missionObjectives };
+    });
   res.status(200).json(missions);
 });
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   const mission = data.missions.find((mission) => mission.id === id);
-  const missionObjectives = data.missionObjectives.filter((missionObjective) => missionObjective.mission === id);
-  if (mission) {
+  const missionObjectives = data.missionObjectives.filter((missionObjective) => missionObjective.mission === id && missionObjective.active);
+  if (mission && mission.active) {
     res.status(200).json({ ...mission, missionObjectives });
   } else {
     res.status(404).json({ message: "Mission not found" });
@@ -36,6 +37,7 @@ router.post("/", (req, res) => {
       level_reward,
       level_requirement,
       quest_giver_character,
+      active: true,
     };
     data.missions.push(newMission);
     res.status(201).json(newMission);
@@ -46,7 +48,7 @@ router.patch("/:id", (req, res) => {
   const { id } = req.params;
   const { name, description, level_reward, level_requirement, quest_giver_character } = req.body;
   const mission = data.missions.find((mission) => mission.id === id);
-  if (mission) {
+  if (mission && mission.active) {
     if (name) {
       mission.name = name;
     }
@@ -71,9 +73,8 @@ router.patch("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
   const mission = data.missions.find((mission) => mission.id === id);
-  if (mission) {
-    const index = data.missions.indexOf(mission);
-    data.missions.splice(index, 1);
+  if (mission && mission.active) {
+    mission.active = false;
     res.status(200).json(mission);
   } else {
     res.status(404).json({ message: "Mission not found" });

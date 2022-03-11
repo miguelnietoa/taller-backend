@@ -8,13 +8,14 @@ const router = Router();
 router.get("/", (req, res) => {
   const { show_image } = req.query;
   if (show_image === "true") {
-    const items = data.items.map(item => {
-      const image = data.images2d.find(image => image.id === item.image);
-      return {
-        ...item,
-        image
-      };
-    });
+    const items = data.items.filter(item => item.active)
+      .map(item => {
+        const image = data.images2d.find(image => image.id === item.image);
+        return {
+          ...item,
+          image
+        };
+      });
     res.status(200).json(items);
   }
   res.status(200).json(data.items);
@@ -23,10 +24,10 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   const { show_image } = req.query;
-  const item = data.items.find((user) => user.id == id);
-  if (item) {
+  const item = data.items.find((user) => user.id === id);
+  if (item && item.active) {
     if (show_image === "true") {
-      const image = data.images2d.find((image) => image.id == item.image);
+      const image = data.images2d.find((image) => image.id === item.image && image.active);
       res.status(200).json({ ...item, image });
     }
     res.status(200).json(item);
@@ -37,7 +38,6 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   const { name, level, description, image, sell_price } = req.body;
-  { name, level, description, image, sell_price }
   // Check if some fields are missing from object
   if (!name || !level || !description || !image || !sell_price) {
     res.status(400).json({ message: "Please provide name, level, description, image and sell_price" });
@@ -48,7 +48,8 @@ router.post("/", (req, res) => {
       level,
       description,
       image,
-      sell_price
+      sell_price,
+      active: true,
     };
     data.items.push(newItem);
     res.status(201).json(newItem);
@@ -58,8 +59,8 @@ router.post("/", (req, res) => {
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
   const { name, level, description, image, sell_price } = req.body;
-  const item = data.items.find((item) => item.id == id);
-  if (item) {
+  const item = data.items.find((item) => item.id === id);
+  if (item && item.active) {
     if (name) item.name = name;
     if (level) item.level = level;
     if (description) item.description = description;
@@ -74,10 +75,9 @@ router.patch("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  const item = data.items.find((item) => item.id == id);
-  if (item) {
-    const index = data.items.indexOf(item);
-    data.items.splice(index, 1);
+  const item = data.items.find((item) => item.id === id);
+  if (item && item.active) {
+    item.active = false;
     res.status(200).json(item);
   } else {
     res.status(404).json({ message: "Item not found" });
