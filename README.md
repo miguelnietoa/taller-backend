@@ -10,7 +10,7 @@ La empresa compartió los siguientes lineamientos:
 - [ ] Por razones de seguridad, se busca que sea posible restaurar objetos borrados.
 - [ ] Se busca que sea posible recibir todas las misiones que puede aceptar un personaje.
 - [ ] Se busca que no sea posible modificar el jugador dueño de un personaje.
-- [ ] Se busca que no sea posible modificar la misión de un objetivo.
+- [x] Se busca que no sea posible modificar la misión de un objetivo.
 - [x] Se busca que no sea posible modificar los campos life, power y magic de los stats de un personaje.
 - [x] Se busca que los campos life, power y magic se rijan con las siguientes reglas:
 o 𝑙𝑖𝑓𝑒 = 𝑎𝑡𝑡𝑟𝑖𝑏𝑢𝑡𝑒1 ∗ 20
