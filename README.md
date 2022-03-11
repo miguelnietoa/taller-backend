@@ -7,7 +7,7 @@ La empresa compartió los siguientes lineamientos:
 - [x] Se busca que sea posible recibir todos los personajes de un jugador.
 - [x] Se busca que los objetivos de una misión se reciban siempre que se pida información de una(s) misión(es).
 - [x] Se busca que los stats de un personaje se reciban siempre que se pida información de un(os) personaje(s).
-- [ ] Por razones de seguridad, se busca que sea posible restaurar objetos borrados.
+- [x] Por razones de seguridad, se busca que sea posible restaurar objetos borrados.
 - [x] Se busca que sea posible recibir todas las misiones que puede aceptar un personaje.
 - [x] Se busca que no sea posible modificar el jugador dueño de un personaje.
 - [x] Se busca que no sea posible modificar la misión de un objetivo.
