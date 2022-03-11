@@ -6,7 +6,7 @@ import playerCharactersRoute from "./src/routes/playerCharacters.routes.js";
 import characterStatsRoute from "./src/routes/characterStats.routes.js";
 
 import missionsRoute from "./src/routes/missions.routes.js";
-import missionsObjectivesRoute from "./src/routes/missionsObjectives.routes.js";
+import missionObjectivesRoute from "./src/routes/missionObjectives.routes.js";
 import images2dRoute from "./src/routes/images2d.routes.js";
 
 const port = process.env.PORT || 8080;
@@ -19,7 +19,7 @@ app.use('/character-stats', characterStatsRoute);
 
 
 app.use('/missions', missionsRoute);
-app.use('/missions-objectives', missionsObjectivesRoute);
+app.use('/missions-objectives', missionObjectivesRoute);
 app.use('/images-2d', images2dRoute);
 
 
