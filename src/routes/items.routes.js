@@ -6,13 +6,29 @@ const router = Router();
 
 
 router.get("/", (req, res) => {
+  const { show_image } = req.query;
+  if (show_image === "true") {
+    const items = data.items.map(item => {
+      const image = data.images2d.find(image => image.id === item.image);
+      return {
+        ...item,
+        image
+      };
+    });
+    res.status(200).json(items);
+  }
   res.status(200).json(data.items);
 });
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
+  const { show_image } = req.query;
   const item = data.items.find((user) => user.id == id);
   if (item) {
+    if (show_image === "true") {
+      const image = data.images2d.find((image) => image.id == item.image);
+      res.status(200).json({ ...item, image });
+    }
     res.status(200).json(item);
   } else {
     res.status(404).json({ message: "Item not found" });
