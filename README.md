@@ -13,7 +13,11 @@ La empresa compartió los siguientes lineamientos:
 - [x] Se busca que no sea posible modificar la misión de un objetivo.
 - [x] Se busca que no sea posible modificar los campos life, power y magic de los stats de un personaje.
 - [x] Se busca que los campos life, power y magic se rijan con las siguientes reglas:
-o 𝑙𝑖𝑓𝑒 = 𝑎𝑡𝑡𝑟𝑖𝑏𝑢𝑡𝑒1 ∗ 20
-o 𝑝𝑜𝑤𝑒𝑟 = 𝑎𝑡𝑡𝑟𝑖𝑏𝑢𝑡𝑒1 ∗ 10+ 𝑎𝑡𝑡𝑟𝑖𝑏𝑢𝑡𝑒2 ∗ 25
-o 𝑚𝑎𝑔𝑖𝑐 = 𝑎𝑡𝑟𝑟𝑖𝑏𝑢𝑡𝑒3 ∗ 100
+
+  o 𝑙𝑖𝑓𝑒 = 𝑎𝑡𝑡𝑟𝑖𝑏𝑢𝑡𝑒1 ∗ 20
+
+  o 𝑝𝑜𝑤𝑒𝑟 = 𝑎𝑡𝑡𝑟𝑖𝑏𝑢𝑡𝑒1 ∗ 10+ 𝑎𝑡𝑡𝑟𝑖𝑏𝑢𝑡𝑒2 ∗ 25
+
+  o 𝑚𝑎𝑔𝑖𝑐 = 𝑎𝑡𝑟𝑟𝑖𝑏𝑢𝑡𝑒3 ∗ 100
+
 - [x] Se busca que sea posible hacer “login” como player y actualizar el last_login de este.
