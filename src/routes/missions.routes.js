@@ -5,14 +5,19 @@ import { generateId } from '../utils/utils.js';
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.status(200).json(data.missions);
+  const missions = data.missions.map((mission) => {
+    const missionObjectives = data.missionObjectives.filter((missionObjective) => missionObjective.mission === mission.id);
+    return { ...mission, missionObjectives };
+  });
+  res.status(200).json(missions);
 });
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  const mission = data.missions.find((mission) => mission.id == id);
+  const mission = data.missions.find((mission) => mission.id === id);
+  const missionObjectives = data.missionObjectives.filter((missionObjective) => missionObjective.mission === id);
   if (mission) {
-    res.status(200).json(mission);
+    res.status(200).json({ ...mission, missionObjectives });
   } else {
     res.status(404).json({ message: "Mission not found" });
   }
@@ -21,14 +26,14 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
   const { name, description, level_reward, level_requirement, quest_giver_character } = req.body;
   // Fail if the fields are not completed
-  if (!name || !description || !level_reward || !level_requirement || ! quest_giver_character) {
+  if (!name || !description || !level_reward || !level_requirement || !quest_giver_character) {
     res.status(400).json({ message: "Please provide name, description, level reward, level requirement and quest giver character" });
   } else {
     const newMission = {
       id: generateId(data.missions),
       name,
       description,
-      level_reward, 
+      level_reward,
       level_requirement,
       quest_giver_character,
     };
@@ -40,7 +45,7 @@ router.post("/", (req, res) => {
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
   const { name, description, level_reward, level_requirement, quest_giver_character } = req.body;
-  const mission = data.missions.find((mission) => mission.id == id);
+  const mission = data.missions.find((mission) => mission.id === id);
   if (mission) {
     if (name) {
       mission.name = name;
@@ -65,7 +70,7 @@ router.patch("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  const mission = data.missions.find((mission) => mission.id == id);
+  const mission = data.missions.find((mission) => mission.id === id);
   if (mission) {
     const index = data.missions.indexOf(mission);
     data.missions.splice(index, 1);

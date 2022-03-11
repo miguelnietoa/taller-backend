@@ -4,7 +4,7 @@ const data = {
   players: [],
   missions: [],
   images2d: [],
-  missionObjetives: [],
+  missionObjectives: [],
   playerCharacters: [],
   items: [],
   characterStats: [],
