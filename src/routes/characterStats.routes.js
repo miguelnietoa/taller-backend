@@ -5,13 +5,15 @@ import { generateId } from '../utils/utils.js';
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.status(200).json(data.characterStats);
+  res.status(200).json(
+    data.characterStats.filter(character => character.active)
+  );
 });
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  const characterStat = data.characterStats.find((purchase) => purchase.id == id);
-  if (characterStat) {
+  const characterStat = data.characterStats.find((purchase) => purchase.id === id);
+  if (characterStat && characterStat.active) {
     res.status(200).json(characterStat);
   } else {
     res.status(404).json({ message: "Character Stat not found" });
@@ -31,6 +33,7 @@ router.post("/", (req, res) => {
       life: attribute_1 * 20,
       power: attribute_1 * 10 + attribute_2 * 25,
       magic: attribute_3 * 100,
+      active: true,
     };
     data.characterStats.push(newCharacterStat);
     res.status(201).json(newCharacterStat);
@@ -40,8 +43,8 @@ router.post("/", (req, res) => {
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
   const { attribute_1, attribute_2, attribute_3 } = req.body;
-  const characterStat = data.characterStats.find((characterStat) => characterStat.id == id);
-  if (characterStat) {
+  const characterStat = data.characterStats.find((characterStat) => characterStat.id === id);
+  if (characterStat && characterStat.active) {
     if (attribute_1) characterStat.attribute_1 = attribute_1;
     if (attribute_2) characterStat.attribute_2 = attribute_2;
     if (attribute_3) characterStat.attribute_3 = attribute_3;
@@ -57,10 +60,9 @@ router.patch("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  const characterStat = data.characterStats.find((characterStat) => characterStat.id == id);
-  if (characterStat) {
-    const index = data.characterStats.indexOf(characterStat);
-    data.characterStats.splice(index, 1);
+  const characterStat = data.characterStats.find((characterStat) => characterStat.id === id);
+  if (characterStat && characterStat.active) {
+    characterStat.active = false;
     res.status(200).json(characterStat);
   } else {
     res.status(404).json({ message: "Character Stat not found" });

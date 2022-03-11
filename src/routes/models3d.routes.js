@@ -5,29 +5,30 @@ import { generateId } from '../utils/utils.js';
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.status(200).json(data.models_3d);
+  res.status(200).json(data.models3d.filter((model_3d) => model_3d.active));
 });
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  const model_3d = data.models_3d.find((model_3d) => model_3d.id == id);
-  if (model_3d) {
+  const model_3d = data.models3d.find((model_3d) => model_3d.id === id);
+  if (model_3d && model_3d.active) {
     res.status(200).json(model_3d);
   } else {
-    res.status(404).json({ message: "model_3d not found" });
+    res.status(404).json({ message: "model3d not found" });
   }
 });
 
 router.post("/", (req, res) => {
-  const { address} = req.body;
-  if ( !address) {
+  const { address } = req.body;
+  if (!address) {
     res.status(400).json({ message: "Please provide a address" });
   } else {
     const newmodel_3d = {
-      id: generateId(data.models_3d),
-      address
+      id: generateId(data.models3d),
+      address,
+      active: true,
     };
-    data.models_3d.push(newmodel_3d);
+    data.models3d.push(newmodel_3d);
     res.status(201).json(newmodel_3d);
   }
 });
@@ -35,8 +36,8 @@ router.post("/", (req, res) => {
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
   const { address} = req.body;
-  const model_3d = data.models_3d.find((model_3d) => model_3d.id == id);
-  if (model_3d) {
+  const model_3d = data.models3d.find((model_3d) => model_3d.id === id);
+  if (model_3d && model_3d.active) {
     if (address) {
       model_3d.address = address;
     }
@@ -48,10 +49,9 @@ router.patch("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  const model_3d = data.models_3d.find((model_3d) => model_3d.id == id);
-  if (model_3d) {
-    const index = data.models_3d.indexOf(model_3d);
-    data.models_3d.splice(index, 1);
+  const model_3d = data.models3d.find((model_3d) => model_3d.id === id);
+  if (model_3d && model_3d.active) {
+    model_3d.active = false;
     res.status(200).json(model_3d);
   } else {
     res.status(404).json({ message: "model_3d not found" });
