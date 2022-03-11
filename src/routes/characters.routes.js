@@ -5,20 +5,34 @@ import { generateId } from '../utils/utils.js';
 const router = Router();
 
 router.get("/", (req, res) => {
-  res.status(200).json(data.characters);
+  const { show_model } = req.query;
+  if (show_model === "true") {
+    const val = data.characters.map((character) => {
+      const model = data["models3d"].find((model) =>
+        model.id === character.model
+      );
+      return { ...character, model };
+    })
+
+    res.status(200).json(val);
+  } else {
+    res.status(200).json(data.characters);
+  }
+
+
 });
 
-router.get("/:id/:showmodel", (req, res) => {
+router.get("/:id", (req, res) => {
   const { id } = req.params;
+  const { show_model } = req.query;
   // true or false
-  const { showmodel } = req.params;
   const character = data.characters.find((character) => character.id == id);
   if (character) {
-    if (showmodel === "true") {
-      const model = data["models_3d"].find((model) => {
-        model.id == character.model
+    if (show_model === "true") {
+      const model = data["models3d"].find((model) => {
+        model.id === character.model
       });
-      res.status(200).json(character, ...model);
+      res.status(200).json({...character,model});
     } else {
       res.status(200).json(character);
     }
