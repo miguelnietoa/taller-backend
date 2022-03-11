@@ -35,6 +35,26 @@ router.post("/", (req, res) => {
   }
 });
 
+router.patch("/:id", (req, res) => {
+  const { id } = req.params;
+  const { name, description, count } = req.body;
+  const missionObjective = data.missionObjectives.find((missionObjective) => missionObjective.id == id);
+  if (missionObjective) {
+    if (name) {
+      missionObjective.name = name;
+    }
+    if (description) {
+      missionObjective.description = description;
+    }
+    if (count) {
+      missionObjective.count = count;
+    }
+    res.status(200).json(missionObjective);
+  } else {
+    res.status(404).json({ message: "Mission objective not found" });
+  }
+});
+
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
   const missionObjective = data.missionObjectives.find((missionObjective) => missionObjective.id == id);
