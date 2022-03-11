@@ -19,13 +19,18 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { life, power, magic, attribute_1, attribute_2, attribute_3 } = req.body;
-  if (!life || !power || !magic || !attribute_1 || !attribute_2 || !attribute_3) {
-    res.status(400).json({ message: "Please provide life, power, magic, attribute_1, attribute_2, attribute_3" });
+  const { attribute_1, attribute_2, attribute_3 } = req.body;
+  if (!attribute_1 || !attribute_2 || !attribute_3) {
+    res.status(400).json({ message: "Please provide attribute_1, attribute_2, attribute_3" });
   } else {
     const newCharacterStat = {
       id: generateId(data.characterStats),
-      life, power, magic, attribute_1, attribute_2, attribute_3
+      attribute_1,
+      attribute_2,
+      attribute_3,
+      life: attribute_1 * 20,
+      power: attribute_1 * 10 + attribute_2 * 25,
+      magic: attribute_3 * 100,
     };
     data.characterStats.push(newCharacterStat);
     res.status(201).json(newCharacterStat);
@@ -34,16 +39,16 @@ router.post("/", (req, res) => {
 
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
-  const { life, power, magic, attribute_1, attribute_2, attribute_3 } = req.body;
+  const { attribute_1, attribute_2, attribute_3 } = req.body;
   const characterStat = data.characterStats.find((characterStat) => characterStat.id == id);
   if (characterStat) {
-    if (life) characterStat.life = life;
-    if (power) characterStat.power = power;
-    if (magic) characterStat.magic = magic;
     if (attribute_1) characterStat.attribute_1 = attribute_1;
     if (attribute_2) characterStat.attribute_2 = attribute_2;
     if (attribute_3) characterStat.attribute_3 = attribute_3;
 
+    characterStat.life = characterStat.attribute_1 * 20;
+    characterStat.power = characterStat.attribute_1 * 10 + characterStat.attribute_2 * 25;
+    characterStat.magic = characterStat.attribute_3 * 100;
     res.status(200).json(characterStat);
   } else {
     res.status(404).json({ message: "Character Stat not found" });
