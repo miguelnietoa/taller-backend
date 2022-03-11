@@ -19,7 +19,7 @@ app.use('/character-stats', characterStatsRoute);
 
 
 app.use('/missions', missionsRoute);
-app.use('/missions-objectives', missionObjectivesRoute);
+app.use('/mission-objectives', missionObjectivesRoute);
 app.use('/images-2d', images2dRoute);
 
 
