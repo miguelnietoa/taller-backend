@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  const image2d = data.images2d.find((image2d) => image2d.id == id);
+  const image2d = data.images2d.find((image2d) => image2d.id === id);
   if (image2d) {
     res.status(200).json(image2d);
   } else {
@@ -37,7 +37,7 @@ router.post("/", (req, res) => {
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
   const { address } = req.body;
-  const image2d = data.images2d.find((image2d) => image2d.id == id);
+  const image2d = data.images2d.find((image2d) => image2d.id === id);
   if (image2d) {
     if (address) {
       image2d.address = address;
@@ -50,7 +50,7 @@ router.patch("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  const image2d = data.images2d.find((image2d) => image2d.id == id);
+  const image2d = data.images2d.find((image2d) => image2d.id === id);
   if (image2d) {
     const index = data.images2d.indexOf(image2d);
     data.images2d.splice(index, 1);

@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  const missionObjective = data.missionObjectives.find((missionObjective) => missionObjective.id == id);
+  const missionObjective = data.missionObjectives.find((missionObjective) => missionObjective.id === id);
   if (missionObjective) {
     res.status(200).json(missionObjective);
   } else {
@@ -38,7 +38,7 @@ router.post("/", (req, res) => {
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
   const { name, description, count } = req.body;
-  const missionObjective = data.missionObjectives.find((missionObjective) => missionObjective.id == id);
+  const missionObjective = data.missionObjectives.find((missionObjective) => missionObjective.id === id);
   if (missionObjective) {
     if (name) {
       missionObjective.name = name;
@@ -57,7 +57,7 @@ router.patch("/:id", (req, res) => {
 
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
-  const missionObjective = data.missionObjectives.find((missionObjective) => missionObjective.id == id);
+  const missionObjective = data.missionObjectives.find((missionObjective) => missionObjective.id === id);
   if (missionObjective) {
     const index = data.purchases.indexOf(missionObjective);
     data.missionObjectives.splice(index, 1);
