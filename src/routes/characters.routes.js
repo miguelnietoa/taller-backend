@@ -48,11 +48,22 @@ router.get("/:id", (req, res) => {
     }
 });
 
-router.get("/:id/missions", (req, res) => {
+router.get("/:id/delivered-missions", (req, res) => {
     const { id } = req.params;
     const character = data.characters.find((character) => character.id === id);
     if (character) {
         const missions = data.missions.filter((mission) => mission.quest_giver_character === id);
+        res.status(200).json(missions);
+    } else {
+        res.status(404).json({ message: "Character not found" });
+    }
+});
+
+router.get("/:id/suggested-missions", (req, res) => {
+    const { id } = req.params;
+    const character = data.characters.find((character) => character.id === id);
+    if (character) {
+        const missions = data.missions.filter((mission) => mission.level_requirement <= character.level);
         res.status(200).json(missions);
     } else {
         res.status(404).json({ message: "Character not found" });
