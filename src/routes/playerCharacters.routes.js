@@ -51,7 +51,7 @@ router.post("/", (req, res) => {
 
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
-  const { name, stats, level, title, model, player } = req.body;
+  const { name, stats, level, title, model } = req.body;
   const playerCharacter = data.playerCharacters.find((playerCharacter) => playerCharacter.id == id);
   if (playerCharacter) {
     if (name) playerCharacter.name = name;
@@ -59,7 +59,6 @@ router.patch("/:id", (req, res) => {
     if (level) playerCharacter.level = level;
     if (title) playerCharacter.title = title;
     if (model) playerCharacter.model = model;
-    if (player) playerCharacter.player = player;
 
     res.status(200).json(playerCharacter);
   } else {
