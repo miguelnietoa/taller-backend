@@ -8,11 +8,21 @@ router.get("/", (req, res) => {
   res.status(200).json(data.characters);
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id/:showmodel", (req, res) => {
   const { id } = req.params;
+  // true or false
+  const { showmodel } = req.params;
   const character = data.characters.find((character) => character.id == id);
   if (character) {
-    res.status(200).json(character);
+    if (showmodel === "true") {
+      const model = data["models_3d"].find((model) => {
+        model.id == character.model
+      });
+      res.status(200).json(character, ...model);
+    } else {
+      res.status(200).json(character);
+    }
+
   } else {
     res.status(404).json({ message: "character not found" });
   }
@@ -41,16 +51,16 @@ router.patch("/:id", (req, res) => {
     if (name) {
       character.name = name;
     }
-    if(stats){
+    if (stats) {
       character.stats = stats;
     }
-    if(level){
+    if (level) {
       character.level = level;
     }
-    if(title){
+    if (title) {
       character.title = title;
     }
-    if(model){
+    if (model) {
       character.model = model;
     }
     res.status(200).json(character);
