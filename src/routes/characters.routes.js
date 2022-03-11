@@ -42,6 +42,17 @@ router.get("/:id", (req, res) => {
   }
 });
 
+router.get("/:id/missions", (req, res) => {
+  const { id } = req.params;
+  const character = data.characters.find((character) => character.id === id);
+  if (character) {
+    const missions = data.missions.filter((mission) => mission.quest_giver_character === id);
+    res.status(200).json(missions);
+  } else {
+    res.status(404).json({ message: "Character not found" });
+  }
+});
+
 router.post("/", (req, res) => {
   const { name, stats, level, title, model } = req.body;
   // Fail if the fields are not completed

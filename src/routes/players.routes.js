@@ -19,15 +19,37 @@ router.get("/:id", (req, res) => {
   }
 });
 
+router.get("/:id/characters", (req, res) => {
+  const { id } = req.params;
+  const player = data.players.find((player) => player.id === id);
+  if (player) {
+    const characters = data.playerCharacters.filter((playerCharacter) => playerCharacter.player === id);
+    res.status(200).json(characters);
+  } else {
+    res.status(404).json({ message: "Player not found" });
+  }
+});
+
+router.post("/login", (req, res) => {
+  const { username, password } = req.body;
+  const player = data.players.find((player) => player.username === username && player.password === password);
+  if (player) {
+    player.last_login = new Date();
+    res.status(200).json({ logged: true });
+  } else {
+    res.status(404).json({ message: "Invalid credentials" });
+  }
+});
+
 router.post("/", (req, res) => {
-  const { name, last_login, password, username } = req.body;
-  if (!name || !last_login || !password || !username) {
+  const { name, password, username } = req.body;
+  if (!name || !password || !username) {
     res.status(400).json({ message: "Please provide playername and name" });
   } else {
     const newplayer = {
       id: generateId(data.players),
       name,
-      last_login,
+      last_login: new Date(),
       password,
       username
     };
